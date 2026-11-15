@@ -10,6 +10,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 84'%3E%3Cpath d='M17 40V24a13 13 0 0 1 26 0v16' fill='none' stroke='%23E77817' stroke-width='7'/%3E%3Crect x='6' y='34' width='48' height='46' rx='7' fill='%23E77817'/%3E%3Ccircle cx='30' cy='57' r='14' fill='%23fff'/%3E%3Ccircle cx='30' cy='50' r='2.8' fill='%23605D5C'/%3E%3Crect x='27.4' y='54.5' width='5.2' height='10' fill='%23605D5C'/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/head-rdzen.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/b400-rdzen.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/b500-rdzen.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="img/hero-960.webp" imagesrcset="img/hero-640.webp 640w, img/hero-960.webp 960w, img/hero-1440.webp 1440w, img/hero-1920.webp 1920w" imagesizes="(max-width:760px) 230vw, 100vw" fetchpriority="high">
 <style>
 @font-face{font-family:"BSC";src:url(fonts/head-rdzen.woff2) format("woff2");font-weight:600;font-display:swap;unicode-range:U+0020-007E,U+00A0,U+00AB,U+00B7,U+00BB,U+00D3,U+00F3,U+2013-2014,U+2018-201E,U+2026}
@@ -20,7 +21,7 @@
 @font-face{font-family:"Barlow";src:url(fonts/b500-pl.woff2) format("woff2");font-weight:500 700;font-display:swap;unicode-range:U+0104-0107,U+0118-0119,U+0141-0144,U+015A-015B,U+0179-017C}
 :root{
   --or:#E77817;     /* pomarańcz kłódki i linii z logo (próbka pikseli) */
-  --ord:#D2660A;    /* ta sama barwa pogłębiona do przycisków */
+  --ord:#B85600;    /* ta sama barwa pogłębiona do przycisków, kontrast z bielą 4,9:1 */
   --orl:#B04F00;    /* pomarańcz do tekstu na bieli, kontrast 5:1 */
   --gr:#605D5C;     /* szarość napisu i litery i z logo */
   --ink:#1F1D1C; --mut:#55524F; --line:#DDE0E4; --gray:#EEF0F2; --dark:#262322; --w:#fff;
@@ -50,7 +51,7 @@ strong{font-weight:600}
 .section{padding:100px 0}
 .gray{background:var(--gray)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:0 30px;font:600 20px/1 var(--head);letter-spacing:.01em;text-decoration:none;border:0;cursor:pointer;background:var(--ord);color:#fff;border-radius:3px;transition:background .15s,transform .15s}
-.btn:hover{background:#B85600}
+.btn:hover{background:#984600}
 .btn:active{transform:translateY(1px)}
 .btn svg{width:20px;height:26px;flex:0 0 auto}
 
@@ -340,7 +341,7 @@ textarea{min-height:120px;resize:vertical}
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#" aria-label="Kancelaria Bezpieczeństwo Informacji - strona główna">
+    <a class="brand" href="#">
       <svg viewBox="0 0 60 84" aria-hidden="true"><use href="#klodka"/></svg>
       <span><b>Kancelaria</b><i>BEZPIECZEŃSTWO INFORMACJI</i></span>
     </a>
@@ -529,7 +530,7 @@ textarea{min-height:120px;resize:vertical}
         <p class="ok" id="ok" role="status">To podgląd strony, więc formularz niczego nie wysyła. Po wdrożeniu wiadomości będą trafiać na biuro@kancelariaabi.pl.</p>
       </form>
     </div>
-    <div class="map" id="map" aria-label="Mapa dojazdu"></div>
+    <div class="map" id="map" role="region" aria-label="Mapa dojazdu"></div>
   </div>
 </section>
 </main>
@@ -538,7 +539,7 @@ textarea{min-height:120px;resize:vertical}
   <div class="wrap">
     <div>
       <div>
-        <a class="brand" href="#" aria-label="Kancelaria Bezpieczeństwo Informacji - do góry">
+        <a class="brand" href="#">
           <svg viewBox="0 0 60 84" aria-hidden="true"><use href="#klodka"/></svg>
           <span><b>Kancelaria</b><i>BEZPIECZEŃSTWO INFORMACJI</i></span>
         </a>
