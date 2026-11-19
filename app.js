@@ -16,8 +16,9 @@
   d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('open')) closeNav(); });
 
   // aktywna pozycja menu = sekcja na ekranie
-  var links = [].slice.call(nav.querySelectorAll('ul a'));
-  if ('IntersectionObserver' in window) {
+  var links = [].slice.call(nav.querySelectorAll('ul a[href^="#"]'));
+  var hero = d.querySelector('.hero');
+  if ('IntersectionObserver' in window && hero) {
     var spy = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
         if (!en.isIntersecting) return;
@@ -27,7 +28,6 @@
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     links.forEach(function (a) { var s = d.querySelector(a.getAttribute('href')); if (s) spy.observe(s); });
-    var hero = d.querySelector('.hero');
     new IntersectionObserver(function (es) { if (es[0].isIntersecting) links.forEach(function (a) { a.removeAttribute('aria-current'); }); }, { threshold: .6 }).observe(hero);
 
     // pasek akcji na telefonie po przewinięciu za przycisk w pierwszym ekranie
@@ -37,20 +37,35 @@
       mob.classList.toggle('widac', past);
     }).observe(cta);
 
-    // mapa Google dopiero przy przewinięciu
-    var map = d.getElementById('map');
-    var mo = new IntersectionObserver(function (es) {
-      if (!es[0].isIntersecting) return;
-      mo.disconnect();
+  }
+
+  // mapa Google: tylko po zgodzie na treści zewnętrzne, ładowana przy przewinięciu
+  var map = d.getElementById('map');
+  if (map) {
+    var mapaJest = false, widac = false;
+    function wstawMape() {
+      if (mapaJest || !widac || !(window.abiZgody && window.abiZgody.zgoda('z'))) return;
+      mapaJest = true;
       var f = d.createElement('iframe');
       f.title = 'Mapa: Kancelaria Bezpieczeństwo Informacji, Opole, ul. Światowida 2';
       f.loading = 'lazy';
       f.referrerPolicy = 'no-referrer-when-downgrade';
       f.src = 'https://www.google.com/maps?q=%C5%9Awiatowida+2%2C+45-325+Opole&z=15&output=embed';
-      map.appendChild(f);
-    }, { rootMargin: '300px' });
-    mo.observe(map);
+      map.innerHTML = ''; map.appendChild(f);
+    }
+    if ('IntersectionObserver' in window) {
+      var mo = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { widac = true; mo.disconnect(); wstawMape(); } }, { rootMargin: '300px' });
+      mo.observe(map);
+    } else widac = true;
+    d.addEventListener('abi:zgody', wstawMape);
+    map.addEventListener('click', function (e) { if (e.target.closest('[data-mapa]')) { widac = true; window.abiZgody.dodaj('z'); } });
   }
+
+  // przyciski z gotowym tematem zapytania (np. "Zapytaj o NIS 2")
+  d.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-u]'), sel = d.querySelector('#form select[name="u"]');
+    if (a && sel) sel.value = a.getAttribute('data-u');
+  });
 
   // przewijane pasy: strzałki + przeciąganie myszą
   [].forEach.call(d.querySelectorAll('.arrows'), function (box) {
@@ -121,13 +136,7 @@
   });
 
   // formularz pokazowy
-  d.getElementById('form').addEventListener('submit', function (e) { e.preventDefault(); d.getElementById('ok').classList.add('show'); });
+  var form = d.getElementById('form');
+  if (form) form.addEventListener('submit', function (e) { e.preventDefault(); d.getElementById('ok').classList.add('show'); });
 
-  // cookies
-  var ck = d.getElementById('cookies');
-  ck.addEventListener('click', function (e) {
-    var b = e.target.closest('button'); if (!b) return;
-    try { localStorage.setItem('ck', b.getAttribute('data-ck')); } catch (er) {}
-    ck.hidden = true;
-  });
 })();
